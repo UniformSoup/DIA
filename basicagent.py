@@ -7,8 +7,8 @@ class BasicAgent(Agent):
         self.throttle = 1.0
         self.threshold = 0.08
 
-    def action(self, observation, reward, done):
-        focus, speedX, speedY, speedZ, opponents, rpm, track, wheelSpinVel = observation
+    def action(self, observation):
+        focus, speedX, speedY, speedZ, opponents, rpm, track, wheelSpinVel, laptime, distraced = observation
 
         if np.min(track[:10]) > self.threshold or np.min(track[9:]) > self.threshold:
             

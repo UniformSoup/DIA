@@ -131,11 +131,8 @@ class TorcsEnv:
         track = np.array(obs['track'])
         sp = np.array(obs['speedX'])
         progress = sp*np.cos(obs['angle'])
-        reward = progress
-
+        reward = - (1 - np.cos(obs['angle']))
         if self.alt_reward:
-            reward = - (1 - np.cos(obs['angle']))
-        else:
             reward = - (1 - np.cos(obs['angle']))
 
         # collision detection
@@ -145,7 +142,7 @@ class TorcsEnv:
         # Termination judgement #########################
         episode_terminate = False
         if track.min() < 0:  # Episode is terminated if the car is out of track
-            reward = -100
+            reward = -1000
             episode_terminate = True
             client.R.d['meta'] = True
 
@@ -248,7 +245,9 @@ class TorcsEnv:
                      'opponents',
                      'rpm',
                      'track',
-                     'wheelSpinVel']
+                     'wheelSpinVel',
+                     'lapTime',
+                     'distRaced']
             Observation = col.namedtuple('Observation', names)
             return Observation(focus=np.array(raw_obs['focus'], dtype=np.float32)/200.,
                                speedX=np.array(raw_obs['speedX'], dtype=np.float32)/self.default_speed,
@@ -257,9 +256,10 @@ class TorcsEnv:
                                opponents=np.array(raw_obs['opponents'], dtype=np.float32)/200.,
                                rpm=np.array(raw_obs['rpm'], dtype=np.float32),
                                track=np.array(raw_obs['track'], dtype=np.float32)/200.,
-
-
-                               wheelSpinVel=np.array(raw_obs['wheelSpinVel'], dtype=np.float32))
+                               wheelSpinVel=np.array(raw_obs['wheelSpinVel'], dtype=np.float32),
+                               lapTime = raw_obs['lastLapTime'],
+                               distRaced = raw_obs['distRaced']
+                               )
         else:
             names = ['focus',
                      'speedX', 'speedY', 'speedZ',
