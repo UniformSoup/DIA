@@ -50,15 +50,16 @@ class QLearningAgent(Agent):
 
     def action(self, observation):
         current_state = self.getState(observation[6])
+        choice = None
             
         if self.isLearning and np.random.rand() < self.explorationRate:
-            self.choice = np.random.choice(len(self.actions))
+            choice = np.random.choice(len(self.actions))
         else:
-            self.choice = np.argmax(self.qtable[current_state])
+            choice = np.argmax(self.qtable[current_state])
 
         throttle = np.clip(np.average(observation[6][9]) * 5, 0.0, 1.0)
 
-        return (self.actions[self.choice], throttle)
+        return (self.actions[choice], throttle)
     
     def save(self):
         np.save(self.file, self.qtable)
