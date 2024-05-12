@@ -1,5 +1,5 @@
 # Racing Agents
-Hello dear marker, 
+Hello Dear Marker, 
 
 This project is built using a version of the Gym-TORCS environment that I have modified to include some benchmarking data and a better reward function for my specific use case.
 The code has only been tested on Ubuntu 22.04, and I believe it is highly unlikely it will run on anything else.
@@ -9,7 +9,7 @@ Apologies for any difficulties in running this environment, it is quite old.
 
 The original Gym-TORCS readme is copied verbatim below, instructions to build from source are included.
 
-Best,
+Best,\
 Albert
 
 # Gym-TORCS
