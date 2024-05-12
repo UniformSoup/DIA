@@ -7,6 +7,8 @@ There are build instructions for Windows in the vtorcs-RL-color directory, but t
 The Python source also uses xautomation, which is inherently specific to Linux.
 Apologies for any difficulties in running this environment, it is quite old.
 
+The code I have written is in the files 'main.py', 'results.py', 'basicagent.py', 'qlearningagent.py' and 'deepqlearningagent.py'. I have also modified 'gym_torcs.py'.
+
 The original Gym-TORCS readme is copied verbatim below, instructions to build from source are included.
 
 Best,\
