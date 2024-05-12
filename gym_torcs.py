@@ -131,7 +131,11 @@ class TorcsEnv:
         track = np.array(obs['track'])
         sp = np.array(obs['speedX'])
         progress = sp*np.cos(obs['angle'])
-        reward = - (1 - np.cos(obs['angle']))
+        reward = - np.min([np.min(track[:9]), np.min(track[10:])])
+        
+        if - (1 - np.cos(obs['angle'])) < -1/18.0:
+            reward -= (1 - np.cos(obs['angle'])) 
+
         if self.alt_reward:
             reward = - (1 - np.cos(obs['angle']))
 
@@ -142,7 +146,10 @@ class TorcsEnv:
         # Termination judgement #########################
         episode_terminate = False
         if track.min() < 0:  # Episode is terminated if the car is out of track
-            reward = -1000
+            if self.alt_reward:
+                reward = -1000
+            else:
+                reward = -1
             episode_terminate = True
             client.R.d['meta'] = True
 

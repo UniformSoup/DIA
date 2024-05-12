@@ -63,7 +63,9 @@ for i in range(episodes):
             print(f"Episode {i + 1} ended after {j+1} steps.")
             break
     
-    agent.save()
+    if not isinstance(agent, BasicAgent):
+        agent.save()
+        
     mean_rewards.append(np.mean(episode_rewards))
 
     if mean_rewards[-1] > best_mean_reward:

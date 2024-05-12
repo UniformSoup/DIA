@@ -1,6 +1,7 @@
 from qlearningagent import QLearningAgent
 from deepqlearningagent import DeepQLearningAgent
 from basicagent     import BasicAgent
+from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -34,7 +35,8 @@ def results(filename, agent):
                 print(f'Distance #{len(distances)}: ', ob[9])
                 distances.append(ob[9])
                 ob = env.reset(relaunch=True)
-
+                # introduce a random start to the basic agent,
+                # qlearning agent has 2% random moves.
                 if isinstance(agent, BasicAgent):
                     agent.throttle = np.random.sample()
                     agent.direction = np.random.sample() - 0.5
@@ -65,6 +67,12 @@ print(f"Mean Distance: {np.mean(qlearning_stats['distances'])}")
 print(f"Standard Deviation: {np.std(qlearning_stats['distances'])}")
 print(f"Crash Count: {len(qlearning_stats['distances'])}")
 
+# uncomment this to plot the model, if graphvis is installed
+# https://graphviz.gitlab.io/download/
+#model = keras.models.load_model('deepqlearning.keras')
+#keras.utils.plot_model(model, to_file='model.eps', show_shapes=True)
+
+
 # Plot Rewards
 fig, ax = plt.subplots()
 ax.plot(qlearning_training_rewards)
@@ -81,11 +89,11 @@ fig, ax = plt.subplots()
 ax.violinplot([basic_stats['laptimes'], qlearning_stats['laptimes']], showmedians=True)
 
 ax.set_xticks([1, 2])
-ax.set_xticklabels(['Basic', 'Q-Learning'])
-ax.set_ylabel('Laptime')
+ax.set_xticklabels(['Zero-Memory', 'Q-Learning'])
+ax.set_ylabel('Laptime (seconds)')
 
 plt.tight_layout()
-plt.savefig('violin.eps', format='eps')
+plt.savefig('violin.pdf', format='pdf')
 plt.show()
 
 # Plot distances before crash.
@@ -94,8 +102,8 @@ fig, ax = plt.subplots()
 ax.boxplot([np.array(basic_stats['distances']), qlearning_stats['distances']])
 
 ax.set_xticks([1, 2])
-ax.set_xticklabels(['Basic', 'Q-Learning'])
-ax.set_ylabel('Distance Raced (Kilometers)')
+ax.set_xticklabels(['Zero-Memory', 'Q-Learning'])
+ax.set_ylabel('Distance Raced (meters)')
 
 plt.tight_layout()
 plt.savefig('boxplot.eps', format='eps')
@@ -108,8 +116,8 @@ ax.bar(0.2, len(basic_stats['distances']), width=0.3)
 ax.bar(0.6, len(qlearning_stats['distances']), width=0.3)
 
 ax.set_xticks([0.2, 0.6])
-ax.set_yticks(np.arange(0, np.max([len(basic_stats['distances']), len(qlearning_stats['distances'])]) + 1, 1))
-ax.set_xticklabels(['Basic', 'Q-Learning'])
+#ax.set_yticks([len(basic_stats['distances']), len(qlearning_stats['distances'])])
+ax.set_xticklabels(['Zero-Memory', 'Q-Learning'])
 ax.set_ylabel('Crash Counts')
 
 plt.tight_layout()

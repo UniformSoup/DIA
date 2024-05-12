@@ -57,7 +57,7 @@ class QLearningAgent(Agent):
         else:
             choice = np.argmax(self.qtable[current_state])
 
-        throttle = np.clip(np.average(observation[6][9]) * 5, 0.0, 1.0)
+        throttle = np.clip(observation[6][9] * 5, 0.0, 1.0)
 
         return (self.actions[choice], throttle)
     
