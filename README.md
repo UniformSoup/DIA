@@ -10,7 +10,6 @@ Apologies for any difficulties in running this environment, it is quite old.
 The original Gym-TORCS readme is copied verbatim below, instructions to build from source are included.
 
 Best,
-
 Albert
 
 # Gym-TORCS
